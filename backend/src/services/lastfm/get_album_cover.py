@@ -20,10 +20,19 @@ def get_album_cover(artist, album_name):
 
     url = config.LASTFM_URL
 
-    response = requests.get(url, params)
-    album_infos = response.json()
-    covers = album_infos['album']['image']
-    corver_album = next((cover['#text'] for cover in covers if cover['size'] == 'extralarge'), None)
-    return corver_album
+    try:
+        response = requests.get(url, params=params)
+        response.raise_for_status()
+        album_infos = response.json()
 
-get_album_cover('Beyoncé', 'Renaissance')
+        if 'album' not in album_infos or 'image' not in album_infos['album']:
+            raise ValueError("Informações do álbum ausentes na resposta da API.")
+
+        covers = album_infos['album']['image']
+        corver_album = next((cover['#text'] for cover in covers if cover['size'] == 'extralarge'), None)
+
+        return corver_album if corver_album else config.DEFAULT_ALBUM_COVER
+
+    except Exception as e:
+        print(f"[ERRO] Falha ao obter capa do álbum '{album_name}' de '{artist}': {e}")
+        return config.DEFAULT_ALBUM_COVER

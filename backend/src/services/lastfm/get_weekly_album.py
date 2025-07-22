@@ -7,6 +7,7 @@ sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../../.
 
 from backend.config import Config
 from backend.src.services.lastfm.get_album_cover import get_album_cover
+from backend.src.database.queries.album_cover_cache import select_url, insert_url
 
 def get_weekly_albums(start_date, end_date):
     config = Config()
@@ -18,7 +19,7 @@ def get_weekly_albums(start_date, end_date):
         'from': start_date,
         'to': end_date,
         'format': 'json',
-        'limit': 5
+        'limit': 50
     }
 
     url = config.LASTFM_URL
@@ -27,29 +28,25 @@ def get_weekly_albums(start_date, end_date):
     dados = response.json()
     albums = dados['weeklyalbumchart']['album']
     dados = []
-    
+    cover_cache = {}
+
     for album in albums:
-        cover_cache = {}
         artist = album['artist'].get('#text')
         album_name = album['name']
 
-
-        chave = (artist, album_name)
-        if chave in cover_cache:
-            album_cover = cover_cache[chave]
-        else:
+        album_cover = select_url(artist, album_name)
+        if not album_cover:
             album_cover = get_album_cover(artist, album_name)
-            cover_cache[chave] = album_cover
+            insert_url(artist, album_name, album_cover)
 
         album_info = {
             'artist': artist,
-            'album _name': album_name,
+            'album_name': album_name,
             'rank_position': album['@attr'].get('rank'),
             'playcount': album['playcount'],
             'album_cover': album_cover
         }
         dados.append(album_info)
 
-    print(dados)
+    return dados
         
-get_weekly_albums(1752192000, 1752764340)
