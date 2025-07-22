@@ -1,6 +1,7 @@
 import sys
 import os
 import requests
+from datetime import datetime
 
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../../../..')))
 
@@ -20,6 +21,9 @@ def get_register_date():
 
     response = requests.get(url, params)
     user_info = response.json()
-    print(user_info)
+    registrion_date = user_info['user']['registered']['unixtime']
+    date = datetime.fromtimestamp(int(registrion_date))
+    return datetime.date(date)
 
-get_register_date()
+date = get_register_date()
+print(date)
