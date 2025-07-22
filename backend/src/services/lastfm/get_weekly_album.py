@@ -6,6 +6,7 @@ from datetime import datetime
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../../../..')))
 
 from backend.config import Config
+from backend.src.services.lastfm.get_album_cover import get_album_cover
 
 def get_weekly_albums(start_date, end_date):
     config = Config()
@@ -32,18 +33,20 @@ def get_weekly_albums(start_date, end_date):
         artist = album['artist'].get('#text')
         album_name = album['name']
 
+
         chave = (artist, album_name)
         if chave in cover_cache:
             album_cover = cover_cache[chave]
         else:
-            album_cover = 'url'
-            cover_cache[chave: album_cover]
+            album_cover = get_album_cover(artist, album_name)
+            cover_cache[chave] = album_cover
 
         album_info = {
             'artist': artist,
             'album _name': album_name,
             'rank_position': album['@attr'].get('rank'),
-            'playcount': album['playcount']
+            'playcount': album['playcount'],
+            'album_cover': album_cover
         }
         dados.append(album_info)
 

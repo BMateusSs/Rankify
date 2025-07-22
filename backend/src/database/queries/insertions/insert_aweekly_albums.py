@@ -8,7 +8,7 @@ from backend.src.database.queries.selections.get_id_by_username import get_user_
 from backend.src.database.connection import get_db_connection
 from backend.src.utils.get_valid_dates import date_intervals
 from backend.src.utils.convert_dates import datetime_to_unixtime
-from backend.src.services.lastfm.get_register_date import get_register_date
+from backend.src.services.lastfm.get_album_cover import get_album_cover
 from backend.src.services.lastfm.get_weekly_album import get_weekly_albums
 
 def insert_albums(chart_id, start_date, end_date):
@@ -16,8 +16,19 @@ def insert_albums(chart_id, start_date, end_date):
     cursor = connection.cursor()
 
     albums = get_weekly_albums(start_date, end_date)
-    print('-=-'*20)
-    print(albums)
+    artist = albums['artist']
+    album_name = albums['album_name']
+    playcount = albums['playcount']
+    rank_position = albums['ranl_position']
+    album_cover = albums['album_cover']
+    
+    query = '''
+        INSERT INTO weekly_album_items
+        (chart_metadata_id, album_name, artist_name, playcount, rank_position, album_cover)
+        VALUES(%s, %s, %s, %s, %s, %s);
+    '''
+
+    cursor.execute(query, (chart_id, album_name, artist, playcount, rank_position, album_cover,))
 
 
 def main():
