@@ -18,7 +18,7 @@ def date_intervals(register_date, today):
         friday = thursday + timedelta(days=1)
         
         
-    print(weeks)
+    return weeks
     
 if __name__ == '__main__':
     thursday = date(2025, 6, 29)
