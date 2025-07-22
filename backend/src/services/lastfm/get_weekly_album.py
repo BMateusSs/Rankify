@@ -1,0 +1,52 @@
+import sys
+import os
+import requests
+from datetime import datetime
+
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../../../..')))
+
+from backend.config import Config
+
+def get_weekly_albums(start_date, end_date):
+    config = Config()
+
+    params = {
+        'method': 'user.getWeeklyAlbumChart',
+        'user': config.LASTFM_USER,
+        'api_key': config.LASTFM_API_KEY,
+        'from': start_date,
+        'to': end_date,
+        'format': 'json',
+        'limit': 5
+    }
+
+    url = config.LASTFM_URL
+    response = requests.get(url, params)
+
+    dados = response.json()
+    albums = dados['weeklyalbumchart']['album']
+    dados = []
+    
+    for album in albums:
+        cover_cache = {}
+        artist = album['artist'].get('#text')
+        album_name = album['name']
+
+        chave = (artist, album_name)
+        if chave in cover_cache:
+            album_cover = cover_cache[chave]
+        else:
+            album_cover = 'url'
+            cover_cache[chave: album_cover]
+
+        album_info = {
+            'artist': artist,
+            'album _name': album_name,
+            'rank_position': album['@attr'].get('rank'),
+            'playcount': album['playcount']
+        }
+        dados.append(album_info)
+
+    print(dados)
+        
+get_weekly_albums(1752192000, 1752764340)
