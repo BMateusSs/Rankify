@@ -28,7 +28,6 @@ def get_weekly_albums(start_date, end_date):
     dados = response.json()
     albums = dados['weeklyalbumchart']['album']
     dados = []
-    cover_cache = {}
 
     for album in albums:
         artist = album['artist'].get('#text')

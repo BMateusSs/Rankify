@@ -8,15 +8,15 @@ from backend.config import Config
 from backend.src.database.connection import get_db_connection
 from backend.src.database.queries.selections.get_id_by_username import get_user_id
 
-def select_url(artist, album):
+def select_url(artist, album, type):
     connection = get_db_connection()
     cursor = connection.cursor()
 
-    query = '''
+    query = f'''
         SELECT url
-        FROM album_cover_cache
+        FROM {type}_cover_cache
         WHERE artist_name = %s 
-        AND album_name = %s
+        AND {type}_name = %s
     '''
     cursor.execute(query, (artist, album,))
     url = cursor.fetchone()
@@ -24,14 +24,14 @@ def select_url(artist, album):
 
     return url[0] if url else None
 
-def insert_url(artist, album, url):
+def insert_url(artist, album, url, type):
     try:
         connection = get_db_connection()
         cursor = connection.cursor()
 
-        query = '''
-            INSERT INTO album_cover_cache
-            (artist_name, album_name, url)
+        query = f'''
+            INSERT INTO {type}_cover_cache
+            (artist_name, {type}_name, url)
             VALUES(%s, %s, %s)
         '''
         cursor.execute(query, (artist, album, url))

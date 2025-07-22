@@ -28,7 +28,7 @@ def insert_albums(chart_id, start_date, end_date, atual):
         ON DUPLICATE KEY UPDATE
             playcount = VALUES(playcount),
             rank_position = VALUES(rank_position),
-            album_cover = VALUES(album_cover);;
+            album_cover = VALUES(album_cover);
     '''
 
     for album in albums:
@@ -54,6 +54,7 @@ def main():
         SELECT id, start_date, end_date
         FROM weekly_chart_metadata
         WHERE user_id = %s
+
     '''
     cursor.execute(query, (user_id,))
     dados = cursor.fetchall()
