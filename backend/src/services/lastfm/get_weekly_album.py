@@ -7,7 +7,7 @@ sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../../.
 
 from backend.config import Config
 from backend.src.services.lastfm.get_album_cover import get_album_cover
-from backend.src.database.queries.album_cover_cache import select_url, insert_url
+from backend.src.database.queries.cache.album_cover_cache import select_url, insert_url
 
 def get_weekly_albums(start_date, end_date):
     config = Config()
