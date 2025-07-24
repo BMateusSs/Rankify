@@ -5,7 +5,7 @@ import os
 
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../../../../../..')))
 
-from backend.src.database.queries.selections.tops.get_top_albums import get_top_albums
+from src.database.queries.selections.tops.get_top_albums import get_top_albums
 
 @charts_bp.route('/weekly_albums', methods=['GET'])
 def get_weekly_albums():
