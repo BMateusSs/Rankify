@@ -48,3 +48,4 @@ def get_artist_cover(artist):
         if first_artist["images"]:
             return first_artist["images"][0]["url"]
     return getattr(config, "DEFAULT_ALBUM_COVER", None)
+

@@ -31,7 +31,8 @@ def insert_weekly_tracks(chart_id, start_date, end_date, c):
 
     tracks = get_weekly_track(start_date, end_date)
 
-    for track in tracks:
+    print(f'\nProcessando chart {c}/{total} (chart_id={chart_id}) com {len(tracks)} tracks...')
+    for i, track in enumerate(tracks, 1):
         artist = track['artist']
         track_name = track['track_name']
         playcount = track['playcount']
@@ -39,8 +40,8 @@ def insert_weekly_tracks(chart_id, start_date, end_date, c):
         track_cover = track['track_cover']
 
         cursor.execute(query, (chart_id, track_name, artist, playcount, rank_position, track_cover,))
-    
-    print(f'{c}/{total}')
+        print(f'  Track {i}/{len(tracks)} inserida: {track_name} - {artist}')
+    print(f'Finalizado chart {c}/{total} (chart_id={chart_id})\n')
     connection.commit()
 
 def main():

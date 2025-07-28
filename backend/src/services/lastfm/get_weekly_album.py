@@ -11,6 +11,7 @@ from backend.src.database.queries.cache.album_cover_cache import select_url, ins
 
 def get_weekly_albums(start_date, end_date):
     config = Config()
+    type = 'album'
 
     params = {
         'method': 'user.getWeeklyAlbumChart',
@@ -33,10 +34,10 @@ def get_weekly_albums(start_date, end_date):
         artist = album['artist'].get('#text')
         album_name = album['name']
 
-        album_cover = select_url(artist, album_name)
+        album_cover = select_url(artist, album_name, type)
         if not album_cover:
             album_cover = get_album_cover(artist, album_name)
-            insert_url(artist, album_name, album_cover)
+            insert_url(artist, album_name, album_cover, type)
 
         album_info = {
             'artist': artist,

@@ -38,7 +38,7 @@ def get_weekly_track(start_date, end_date):
         
         track_cover = select_url(artist, track_name, type)
         if not track_cover:
-            track_cover = get_track_cover(artist, track_name)
+            track_cover = get_track_cover(track_name, artist)
             if not track_cover:
                 track_cover = config.DEFAULT_ALBUM_COVER
             insert_url(artist, track_name, track_cover, type)
