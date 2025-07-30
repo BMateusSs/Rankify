@@ -8,17 +8,18 @@ import { API_URLS } from '../constants/api'
 import { RootStackParamList } from '../app/App'
 
 type TopAlbumsNavigationProp = NativeStackNavigationProp<RootStackParamList, 'TopAlbums'>
+type TopTrackNavigationProp = NativeStackNavigationProp<RootStackParamList, 'TopTracks'>
 
 interface Props {
     data: (Album | Artist)[];
-    navigation: TopAlbumsNavigationProp
+    navigation: TopAlbumsNavigationProp | TopTrackNavigationProp
 }
 
 const ListItems: React.FC<Props> = ({data, navigation}) => {
     const renderItem = ({item}:{item: Album | Artist}) => {
 
-        const handleChartInfo = ({artist, album} : {artist: string, album: string}) => {
-            navigation.navigate('ItemInfos', {artist, album})
+        const handleChartInfo = ({artist, album, type} : {artist: string, album: string, type: string}) => {
+            navigation.navigate('ItemInfos', {artist, album, type})
         }
 
         const isArtist = item.type === 'artist'
@@ -63,7 +64,7 @@ const ListItems: React.FC<Props> = ({data, navigation}) => {
                         
                             <View style={styles.imparContainer}>
                                 <TouchableOpacity
-                        onPress={() => handleChartInfo({artist: item.artist, album: item.name})}
+                        onPress={() => handleChartInfo({artist: item.artist, album: item.name, type: item.type})}
                         ><Text>+</Text></TouchableOpacity>
                                 
                             </View>
