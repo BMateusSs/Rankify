@@ -18,9 +18,26 @@ type Props = {
 };
 
 const ItemInfos: React.FC<Props> = ({route}) => {
-    const { artist, album} = route.params
+    const { artist, album, type} = route.params
 
-    const {data, loading, error} = useInfoFetch<AlbumChartData[]>(API_URLS.GET_CHARTS_DATA, artist, album)
+    let url: string | null = null
+
+    if (type == 'album'){
+        url = API_URLS.GET_CHARTS_DATA
+    } else if (type == 'track'){
+        url = API_URLS.GET_TRACK_CHART_DATA
+    }
+
+    if (url === null) {
+        return (
+            <View style={styles.errorContainer}>
+                <Text style={styles.errorText}>Tipo de item desconhecido: {type}</Text>
+                <Text style={styles.errorText}>Não foi possível carregar as informações.</Text>
+            </View>
+        );
+    }
+
+    const {data, loading, error} = useInfoFetch<AlbumChartData[]>(url, artist, album)
     const formatDate = (dateString: string) => {
         try {
             const date = new Date(dateString);
