@@ -4,19 +4,38 @@ import { API_URLS } from '../constants/api'
 import { Chart } from '../types/types'
 import { useFetch } from '../hooks/useFetch'
 import GetTitle from '../components/GetTitle'
+import { BottomTabScreenProps } from "@react-navigation/bottom-tabs";
+import { TabParamList } from '../navigation/Tabs'
+import { BottomTabNavigationProp } from '@react-navigation/bottom-tabs'
+import { NativeStackNavigationProp } from '@react-navigation/native-stack'
+import { CompositeNavigationProp } from '@react-navigation/native'
+import { RootStackParamList } from '../app/App'
 
-const ChartsScreen: React.FC = () => {
+
+type ChartsTabProps = CompositeNavigationProp<
+  BottomTabNavigationProp<TabParamList, 'Charts'>,
+  NativeStackNavigationProp<RootStackParamList>
+>
+
+type Props = {
+  navigation: ChartsTabProps
+}
+
+const ChartsScreen: React.FC<Props> = ({navigation}) => {
     const {data, loading, error} = useFetch<Chart[]>(API_URLS.GET_CHART_INFOS)
 
-    
-
     const renderItem = ({item}: {item: Chart}) => {
+        const handleChartRanking = ({metric, type}: {metric: string, type: string}) => {
+            navigation.navigate('ChartRanking', {metric, type})
+        }
         const title = <GetTitle
                       metric={item.metric_type}
                       type={item.type}
                       />
         return(
-            <TouchableOpacity>
+            <TouchableOpacity
+            onPress={() => handleChartRanking({metric: item.metric_type, type: item.type})}
+            >
                 <View style={styles.itemContainer}>
                     <View style={styles.titleContainer}>
                         <Text style={styles.title}>{title}</Text>
