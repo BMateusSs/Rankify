@@ -9,10 +9,11 @@ import { RootStackParamList } from '../app/App'
 
 type TopAlbumsNavigationProp = NativeStackNavigationProp<RootStackParamList, 'TopAlbums'>
 type TopTrackNavigationProp = NativeStackNavigationProp<RootStackParamList, 'TopTracks'>
+type TopArtistNavigation = NativeStackNavigationProp<RootStackParamList, 'TopArtists'>;
 
 interface Props {
     data: (Album | Artist)[];
-    navigation: TopAlbumsNavigationProp | TopTrackNavigationProp
+    navigation: TopAlbumsNavigationProp | TopTrackNavigationProp | TopArtistNavigation
 }
 
 const ListItems: React.FC<Props> = ({data, navigation}) => {
@@ -64,8 +65,9 @@ const ListItems: React.FC<Props> = ({data, navigation}) => {
                         
                             <View style={styles.imparContainer}>
                                 <TouchableOpacity
-                        onPress={() => handleChartInfo({artist: item.artist, album: item.name, type: item.type})}
-                        ><Text>+</Text></TouchableOpacity>
+                                    onPress={() => handleChartInfo({artist: item.artist, album: item.name, type: item.type})}>
+                                        <Text>+</Text>
+                                </TouchableOpacity>
                                 
                             </View>
                         
