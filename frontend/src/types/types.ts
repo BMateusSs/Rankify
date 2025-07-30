@@ -77,3 +77,14 @@ export type AlbumChartData = {
     total_weeks: number,
     chart_run: ChartRunItem[];
 }
+
+export type HighestPlaycount = {
+    cover: string,
+    name: string,
+    artist: string,
+    playcount: string,
+    start_date: string,
+    end_date: string,
+    week_number: string,
+    rank_position: string
+}
