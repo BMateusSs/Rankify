@@ -14,6 +14,8 @@ from src.database.queries.selections.get_user_info import get_user_charts_info
 from src.database.queries.selections.get_total_weeks import get_total_weeks
 from src.database.queries.selections.get_charts_infos import get_charts_infos
 from src.database.queries.selections.tops.get_chart_data import get_chart_data
+from src.database.queries.selections.get_highst_playcount import get_highest_playcount
+from src.database.queries.selections.tops.get_track_chart_data import get_track_chart_data
 
 @charts_bp.route('/weekly_albums', methods=['GET'])
 def get_weekly_albums():
@@ -143,4 +145,51 @@ def chart_data():
     ]
 
     return jsonify(response)
+
+@charts_bp.route('/chart_track_data', methods=['POST'])
+def chart_track_data():
+    infos = request.get_json()
+    artist = infos.get('artist')
+    album = infos.get('album')
+
+    data = get_track_chart_data(artist, album)
+
+    chart_run = json.loads(data[10]) if isinstance(data[10], str) else data[10]
+
+    response = [{
+            'name': data[0],
+            'artist': data[1],
+            'cover': data[2],
+            'weeks_at_1': data[3],
+            'weeks_at_3': data[4],
+            'weeks_at_5': data[5],
+            'weeks_at_10': data[6],
+            'peak_position': data[7],
+            'debut_date': data[8],
+            'total_weeks': data[9],
+            'chart_run': chart_run
+        }
+    ]
+
+    return jsonify(response)
         
+@charts_bp.route('/highest_playcount', methods=['POST'])
+def highest_playcount():
+    infos = request.get_json()
+    type = infos.get('album')
+    datas = get_highest_playcount(type)
+
+    response = []
+    for data in datas:
+        response.append({
+            'cover': data[0],
+            'name': data[1],
+            'artist': data[2],
+            'playcount': data[3],
+            'start_date': data[4],
+            'end_date': data[5],
+            'week_number': data[6],
+            'rank_position': data[7]
+        })
+
+    return jsonify(response)
