@@ -9,7 +9,7 @@ export const endpoints = {
         charts_data: '/charts/charts_data',
         highest_playcount: '/charts/highest_playcount',
         chart_track_data: '/charts/chart_track_data',
-        chart_artist_data: '/charts/chart_track_data'
+        chart_artist_data: '/charts/chart_artist_data'
     },
 
     user: {

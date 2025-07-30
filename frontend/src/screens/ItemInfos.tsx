@@ -26,6 +26,8 @@ const ItemInfos: React.FC<Props> = ({route}) => {
         url = API_URLS.GET_CHARTS_DATA
     } else if (type == 'track'){
         url = API_URLS.GET_TRACK_CHART_DATA
+    } else{
+        url = API_URLS.GET_ARTIST_CHART_DATA
     }
 
     if (url === null) {

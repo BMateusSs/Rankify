@@ -175,25 +175,25 @@ def chart_track_data():
     return jsonify(response)
 
 @charts_bp.route('/chart_artist_data', methods=['POST'])
-def chart_track_data():
+def chart_artist_data():
     infos = request.get_json()
-    artist = infos.get('artist')
+    artist = infos.get('album')
 
     data = get_artist_chart_data(artist)
 
-    chart_run = json.loads(data[10]) if isinstance(data[10], str) else data[10]
+    chart_run = json.loads(data[9]) if isinstance(data[9], str) else data[9]
 
     response = [{
             'name': data[0],
             'artist': '',
-            'cover': data[2],
-            'weeks_at_1': data[3],
-            'weeks_at_3': data[4],
-            'weeks_at_5': data[5],
-            'weeks_at_10': data[6],
-            'peak_position': data[7],
-            'debut_date': data[8],
-            'total_weeks': data[9],
+            'cover': data[1],
+            'weeks_at_1': data[2],
+            'weeks_at_3': data[3],
+            'weeks_at_5': data[4],
+            'weeks_at_10': data[5],
+            'peak_position': data[6],
+            'debut_date': data[7],
+            'total_weeks': data[8],
             'chart_run': chart_run
         }
     ]
