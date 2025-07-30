@@ -9,21 +9,24 @@ import TopAlbums from '../screens/TopAlbuns';
 import TopTracks from '../screens/TopTracks';
 import TopArtists from '../screens/TopArtists';
 import ItemInfos from '../screens/ItemInfos';
+import ChartRanking from '../screens/ChartRanking';
+import { fonts } from '../style';
 
 export type RootStackParamList = {
   MainTabs: undefined;
   TopAlbums: { data: Album[] };
   TopTracks: { data: Track[] };
   TopArtists: { data: Artist[] };
-  ItemInfos: { artist: string, album: string}
+  ItemInfos: { artist: string, album: string, type: string}
+  ChartRanking: {metric: string, type: string}
 };
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
 export default function App() {
   const [fontsLoaded] = useFonts({
-    'NeueHaasDisplayBold': require('../../assets/fonts/NeueHaasDisplayBold.ttf'),
-    'NeueHaasDisplayXThin': require('../../assets/fonts/NeueHaasDisplayXThin.ttf'),
+    [fonts.mainFont]: require('../../assets/fonts/NeueHaasDisplayBold.ttf'),
+    [fonts.simpleFont]: require('../../assets/fonts/NeueHaasDisplayXThin.ttf'),
   });
 
   if (!fontsLoaded) {
@@ -57,6 +60,10 @@ export default function App() {
           name='ItemInfos' 
           component={ItemInfos}
           options={{ title: 'Charts Info' }}
+        />
+        <Stack.Screen
+        name='ChartRanking'
+        component={ChartRanking}
         />
       </Stack.Navigator>
     </NavigationContainer>
