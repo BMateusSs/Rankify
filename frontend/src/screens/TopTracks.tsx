@@ -10,13 +10,15 @@ import { RouteProp } from "@react-navigation/native";
 import ListItems from "../components/ListItems";
 
 type TopTracksRouteProp = RouteProp<RootStackParamList, 'TopTracks'>;
+type TopTrackNavigationProp = NativeStackNavigationProp<RootStackParamList, 'TopTracks'>
 
 type Props = {
     route: TopTracksRouteProp;
+    navigation: TopTrackNavigationProp
 };
 
 
-const TopTracks: React.FC<Props> = ({route}) => {
+const TopTracks: React.FC<Props> = ({route, navigation}) => {
 
     const { data } = route.params
 
@@ -28,6 +30,7 @@ const TopTracks: React.FC<Props> = ({route}) => {
             />
             <ListItems
             data={data}
+            navigation={navigation}
             />
         </View>
     )
