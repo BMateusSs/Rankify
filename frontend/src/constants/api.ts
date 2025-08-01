@@ -12,7 +12,8 @@ export const endpoints = {
         chart_artist_data: '/charts/chart_artist_data',
         get_weeks: '/charts/get_weeks',
         get_recent_week: '/charts/recent_week',
-        get_top_weekly_albums: '/charts/top_weekly_albums'
+        get_top_weekly_albums: '/charts/top_weekly_albums',
+        get_top_weekly_tracks: '/charts/top_weekly_tracks'
     },
 
     user: {
@@ -36,5 +37,6 @@ export const API_URLS = {
     GET_ARTIST_CHART_DATA: buildApiUrl(endpoints.charts.chart_artist_data),
     GET_WEEKS: buildApiUrl(endpoints.charts.get_weeks),
     GET_RECENT_WEEK: buildApiUrl(endpoints.charts.get_recent_week),
-    GET_TOP_WEEKLY_ALBUMS: buildApiUrl(endpoints.charts.get_top_weekly_albums)
+    GET_TOP_WEEKLY_ALBUMS: buildApiUrl(endpoints.charts.get_top_weekly_albums),
+    GET_TOP_WEEKLY_TRACKS: buildApiUrl(endpoints.charts.get_top_weekly_tracks)
 }

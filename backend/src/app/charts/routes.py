@@ -21,6 +21,7 @@ from src.database.queries.selections.tops.get_artist_chart_data import get_artis
 from src.database.queries.selections.tops.get_recent_date import get_recent_date
 from src.database.queries.selections.get_weeks import get_weeks
 from src.database.queries.selections.tops.get_top_weekly_albums import get_top_weekly_albums
+from src.database.queries.selections.tops.get_top_weekly_tracks import get_top_weekly_tracks
 
 @charts_bp.route('/weekly_albums', methods=['GET'])
 def get_weekly_albums():
@@ -255,20 +256,17 @@ def get_recent_week():
 
     return jsonify(response)
 
-from flask import request, jsonify # Importe 'request'
+from flask import request, jsonify
 
-@charts_bp.route('/top_weekly_albums', methods=['POST']) # Altere para POST
+@charts_bp.route('/top_weekly_albums', methods=['POST'])
 def get_topweekly_albums():
-    # Obtenha a data do corpo da requisição JSON
-    # A data virá no formato 'YYYY-MM-DD'
     data_param = request.json.get('date')
 
     if not data_param:
         return jsonify({"error": "Parâmetro 'date' ausente na requisição."}), 400
 
     try:
-        # Chame a função get_top_albums passando a data
-        albums = get_top_weekly_albums(data_param) # Passe a data aqui
+        albums = get_top_weekly_albums(data_param)
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
@@ -285,6 +283,36 @@ def get_topweekly_albums():
             'total_weeks': album[6],
             'peak_position': album[7],
             'weeks_on_top': album[8]
+        }
+        dados.append(dado)
+
+    return jsonify(dados)
+
+@charts_bp.route('/top_weekly_tracks', methods=['POST'])
+def get_topweekly_tracks():
+    data_param = request.json.get('date')
+
+    if not data_param:
+        return jsonify({"error": "Parâmetro 'date' ausente na requisição."}), 400
+
+    try:
+        tracks = get_top_weekly_albums(data_param)
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
+    dados = []
+    for track in tracks:
+        dado = {
+            'type': 'album',
+            'name': track[0],
+            'artist': track[1],
+            'rank_position': track[2],
+            'playcount': track[3],
+            'cover': track[4],
+            'last_week': 0 if track[5] is None else track[5],
+            'total_weeks': track[6],
+            'peak_position': track[7],
+            'weeks_on_top': track[8]
         }
         dados.append(dado)
 
