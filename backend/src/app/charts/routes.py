@@ -3,6 +3,7 @@ from . import charts_bp
 import sys
 import os
 import json
+from datetime import datetime, date
 
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../../../../../..')))
 
@@ -17,6 +18,9 @@ from src.database.queries.selections.tops.get_chart_data import get_chart_data
 from src.database.queries.selections.get_highst_playcount import get_highest_playcount
 from src.database.queries.selections.tops.get_track_chart_data import get_track_chart_data
 from src.database.queries.selections.tops.get_artist_chart_data import get_artist_chart_data
+from src.database.queries.selections.tops.get_recent_date import get_recent_date
+from src.database.queries.selections.get_weeks import get_weeks
+from src.database.queries.selections.tops.get_top_weekly_albums import get_top_weekly_albums
 
 @charts_bp.route('/weekly_albums', methods=['GET'])
 def get_weekly_albums():
@@ -198,6 +202,23 @@ def chart_artist_data():
         }
     ]
 
+    print(response)
+
+    return jsonify(response)
+
+@charts_bp.route('/get_weeks', methods=['GET'])
+def get_valid_weeks():
+    data = get_weeks()
+
+    response = []
+    for week in data:
+        response.append({
+            'id': week[0],
+            'start_date': week[1].strftime('%Y-%m-%d'),
+            'end_date': week[2].strftime('%Y-%m-%d'),
+            'week': week[3]
+        })
+
     return jsonify(response)
         
 @charts_bp.route('/highest_playcount', methods=['POST'])
@@ -220,3 +241,51 @@ def highest_playcount():
         })
 
     return jsonify(response)
+
+@charts_bp.route('/recent_week', methods=['GET'])
+def get_recent_week():
+    data = get_recent_date()
+
+    response = []
+    
+    response.append({
+        'start_date': data[0].strftime('%Y-%m-%d'),
+        'end_date': data[1].strftime('%Y-%m-%d'),
+    })
+
+    return jsonify(response)
+
+from flask import request, jsonify # Importe 'request'
+
+@charts_bp.route('/top_weekly_albums', methods=['POST']) # Altere para POST
+def get_topweekly_albums():
+    # Obtenha a data do corpo da requisição JSON
+    # A data virá no formato 'YYYY-MM-DD'
+    data_param = request.json.get('date')
+
+    if not data_param:
+        return jsonify({"error": "Parâmetro 'date' ausente na requisição."}), 400
+
+    try:
+        # Chame a função get_top_albums passando a data
+        albums = get_top_weekly_albums(data_param) # Passe a data aqui
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
+    dados = []
+    for album in albums:
+        dado = {
+            'type': 'album',
+            'name': album[0],
+            'artist': album[1],
+            'rank_position': album[2],
+            'playcount': album[3],
+            'cover': album[4],
+            'last_week': 0 if album[5] is None else album[5],
+            'total_weeks': album[6],
+            'peak_position': album[7],
+            'weeks_on_top': album[8]
+        }
+        dados.append(dado)
+
+    return jsonify(dados)
