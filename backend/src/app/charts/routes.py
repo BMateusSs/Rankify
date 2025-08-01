@@ -296,7 +296,7 @@ def get_topweekly_tracks():
         return jsonify({"error": "Parâmetro 'date' ausente na requisição."}), 400
 
     try:
-        tracks = get_top_weekly_albums(data_param)
+        tracks = get_top_weekly_tracks(data_param)
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
