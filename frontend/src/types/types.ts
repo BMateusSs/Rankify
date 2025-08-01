@@ -88,3 +88,15 @@ export type HighestPlaycount = {
     week_number: string,
     rank_position: string
 }
+
+export type ValidWeeks = {
+    id: string,
+    start_date: string,
+    end_date: string,
+    week: string
+}
+
+export type Date = {
+    start_date: string,
+    end_date: string
+}

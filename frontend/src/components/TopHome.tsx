@@ -31,7 +31,6 @@ const TopHome: React.FC<Props> = ({navigation}) => {
             navigation={navigation}
             handleNavigation={handleTopAlbums}
             />
-            
         </View>
         
     )

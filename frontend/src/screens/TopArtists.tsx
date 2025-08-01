@@ -5,6 +5,7 @@ import { RootStackParamList } from "../app/App";
 import TopContainer from "../components/TopContainer";
 import { RouteProp } from "@react-navigation/native";
 import ListItems from "../components/ListItems";
+import ChartHeader from "../components/ChartHeader";
 
 type TopTracksRouteProp = RouteProp<RootStackParamList, 'TopArtists'>;
 type TopArtistNavigation = NativeStackNavigationProp<RootStackParamList, 'TopArtists'>;
@@ -23,6 +24,10 @@ const TopArtists: React.FC<Props> = ({route, navigation}) => {
             <TopContainer
             album={data[0]}
             color="#000"
+            />
+
+            <ChartHeader
+            backgroundColor="#000"
             />
             <ListItems
             data={data}
