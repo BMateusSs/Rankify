@@ -6,6 +6,7 @@ import GetVariation from './GetVariation'
 import { useInfoFetch } from '../hooks/useInfoFetch'
 import { API_URLS } from '../constants/api'
 import { RootStackParamList } from '../app/App'
+import ChartHeader from './ChartHeader'
 
 type TopAlbumsNavigationProp = NativeStackNavigationProp<RootStackParamList, 'TopAlbums'>
 type TopTrackNavigationProp = NativeStackNavigationProp<RootStackParamList, 'TopTracks'>
@@ -78,6 +79,7 @@ const ListItems: React.FC<Props> = ({data, navigation}) => {
     }
     return(
         <View style={{width: '100%'}}>
+            
             <FlatList<Album | Artist>
             data={data}
             renderItem={renderItem}
