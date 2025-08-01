@@ -7,124 +7,13 @@ import ChartInfo from '../components/ChartInfo';
 import ChartRun from '../components/ChartRun';
 import ChartInfoTitle from '../components/ChartInfoTitle';
 import WeekAt from '../components/WeekAt';
+import ButtonDates from '../components/ButtonDates';
 
 const Certified: React.FC = () => {
-    const { data, loading, error } = useFetch<AlbumChartData[]>(API_URLS.GET_CHARTS_DATA);
-
-    // Função para formatar a data
-    const formatDate = (dateString: string) => {
-        try {
-            const date = new Date(dateString);
-            return date.toLocaleDateString('pt-BR', {
-                day: '2-digit',
-                month: '2-digit',
-                year: 'numeric'
-            });
-        } catch {
-            return dateString; // Retorna o original se falhar
-        }
-    };
-
-    // Estados de carregamento e erro
-    if (loading) {
-        return (
-            <View style={styles.loadingContainer}>
-                <ActivityIndicator size="large" color="#0000ff" />
-            </View>
-        );
-    }
-
-    if (error) {
-        return (
-            <View style={styles.errorContainer}>
-                <Text style={styles.errorText}>Erro ao carregar dados: {error}</Text>
-            </View>
-        );
-    }
-
-    if (!data || data.length === 0) {
-        return (
-            <View style={styles.emptyContainer}>
-                <Text>Nenhum dado disponível</Text>
-            </View>
-        );
-    }
-
-    const albumData = data[0];
 
     return (
         <View style={styles.mainContainer}>
-            {/* Cabeçalho com capa e informações básicas */}
-            <View style={[styles.topContainer, { backgroundColor: 'green' }]}>
-                <View style={styles.cover}>
-                    <Image
-                        source={{ uri: albumData.cover }}
-                        style={styles.coverImage}
-                        resizeMode="contain"
-                    />
-                </View>
-                <View style={styles.albumInfo}>
-                    <Text style={styles.albumName}>{albumData.name}</Text>
-                    <Text style={styles.artistName}>{albumData.artist}</Text>
-                </View>
-            </View>
-
-            {/* Estatísticas do álbum */}
-            <View style={styles.bottomContainer}>
-                <ChartInfo
-                label='ESTREIA'
-                value={formatDate(albumData.debut_date)}
-                />
-                
-                <ChartInfo
-                label='PEAK'
-                value={albumData.peak_position}
-                />
-            
-                <ChartInfo
-                label='SEMANAS'
-                value={albumData.total_weeks}
-                />
-            </View>
-
-            <ChartInfoTitle
-            title='Semanas no'
-            />
-
-            {/* Informações adicionais */}
-            <View style={styles.weeksContainer}>
-                
-                <WeekAt
-                label='No #1'
-                value={albumData.weeks_at_1}
-                />
-
-                <WeekAt
-                label='Top 3'
-                value={albumData.weeks_at_3}
-                />
-
-                <WeekAt
-                label='Top 5'
-                value={albumData.weeks_at_5}
-                />
-
-                <WeekAt
-                label='Top 10'
-                value={albumData.weeks_at_10}
-                />
-            </View>
-
-            <ChartInfoTitle
-            title='Chart Run'
-            />
-            <View style={{width: '100%', alignItems: 'center'}}>
-                <ChartRun
-                albumData={albumData}
-                peak_position={albumData.peak_position}
-                />
-            </View>
-            
+            <ButtonDates/>
         </View>
     );
 };
