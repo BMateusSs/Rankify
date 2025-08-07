@@ -88,6 +88,7 @@ const ListItems: React.FC<Props> = ({data, navigation}) => {
                     ? `artist-${item.name}`
                     : `${item.name}-${item.artist}`
                 }
+            scrollEnabled={false}
 
             />
         </View>
