@@ -22,6 +22,11 @@ from src.database.queries.selections.tops.get_recent_date import get_recent_date
 from src.database.queries.selections.get_weeks import get_weeks
 from src.database.queries.selections.tops.get_top_weekly_albums import get_top_weekly_albums
 from src.database.queries.selections.tops.get_top_weekly_tracks import get_top_weekly_tracks
+from src.database.queries.selections.tops.get_top_weekly_artists import get_top_weekly_artists
+from src.services.lastfm.get_overall_albums import get_overall_albums, get_overall_tracks, get_overall_artists
+from src.database.queries.selections.tops.get_artist_albums_chart_data import get_artist_albums_chart_data, get_artist_tracks_chart_data
+from src.database.queries.selections.emblems.get_emblems import get_100_playcount_emblem, get_1000_playcount_emblem, get_52_week_albums, get_5_weeks_at_one, get_debut_at_1_emblem
+from src.database.queries.selections.emblems.ranking import get_ranking
 
 @charts_bp.route('/weekly_albums', methods=['GET'])
 def get_weekly_albums():
@@ -303,7 +308,7 @@ def get_topweekly_tracks():
     dados = []
     for track in tracks:
         dado = {
-            'type': 'album',
+            'type': 'track',
             'name': track[0],
             'artist': track[1],
             'rank_position': track[2],
@@ -317,3 +322,88 @@ def get_topweekly_tracks():
         dados.append(dado)
 
     return jsonify(dados)
+
+@charts_bp.route('/top_weekly_artists', methods=['POST'])
+def get_topweekly_artists():
+    data_param = request.json.get('date')
+
+    if not data_param:
+        return jsonify({"error": "Parâmetro 'date' ausente na requisição."}), 400
+
+    try:
+        artists = get_top_weekly_artists(data_param)
+    except Exception as e:
+        import traceback
+        traceback.print_exc()
+        return jsonify({"error": str(e)}), 500
+
+
+    dados = []
+    for artist in artists:
+        dado = {
+            'type': 'artist',
+            'name': artist[0],
+            'artist': '',
+            'rank_position': artist[1],
+            'playcount': artist[2],
+            'cover': artist[3],
+            'last_week': 0 if artist[4] is None else artist[4],
+            'total_weeks': artist[5],
+            'peak_position': artist[6],
+            'weeks_on_top': artist[7]
+        }
+        dados.append(dado)
+
+    return jsonify(dados)
+
+@charts_bp.route('/top_albums_overall', methods=['GET'])
+def get_albums_overall():
+    dados = get_overall_albums()
+
+    return jsonify(dados)
+
+@charts_bp.route('/top_tracks_overall', methods=['GET'])
+def get_tracks_overall():
+    dados = get_overall_tracks()
+
+    return jsonify(dados)
+
+@charts_bp.route('/top_artists_overall', methods=['GET'])
+def get_artists_overall():
+    dados = get_overall_artists()
+
+    return jsonify(dados)
+
+@charts_bp.route('/get_artist_albums_data', methods=['POST'])
+def get_artist_albums_data():
+    data_param = request.json.get('artist')
+    albums = get_artist_albums_chart_data(data_param)
+
+    response = []
+    for album in albums:
+        response.append({
+            'name': album[0],
+            'peak_position': album[1],
+            'total_weeks': album[2],
+            'cover': album[3],
+            'debut_date': album[4]
+        })
+
+    return jsonify(response)
+
+@charts_bp.route('/get_artist_tracks_data', methods=['POST'])
+def get_artist_tracks_data():
+    data_param = request.json.get('artist')
+    tracks = get_artist_tracks_chart_data(data_param)
+
+    response = []
+    for track in tracks:
+        response.append({
+            'name': track[0],
+            'peak_position': track[1],
+            'total_weeks': track[2],
+            'cover': track[3],
+            'debut_date': track[4]
+        })
+
+    return jsonify(response)
