@@ -21,19 +21,19 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
         width: '100%',
-        
+        marginStart: 12,
         marginVertical: 10,
     },
     text: {
         fontSize: 20,
-        color: '#1DB954',
+        color: 'blue',
         fontFamily: 'NeueHaasDisplayBold',
         marginRight: 10, 
     },
     line: {
         flex: 1, 
         height: 2, 
-        backgroundColor: '#1DB954',
+        backgroundColor: 'blue',
         borderRadius: 1, 
     },
 });
