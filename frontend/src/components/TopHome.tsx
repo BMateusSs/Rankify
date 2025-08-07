@@ -21,7 +21,7 @@ const TopHome: React.FC<Props> = ({navigation}) => {
     if (!data || data.length === 0) return <Text>Nenhum álbum encontrado.</Text>;
 
     const handleTopAlbums = () => {
-        navigation.navigate('TopAlbums', {data: data as Album[]})
+        navigation.navigate('TopAlbums')
     }
 
     return(
