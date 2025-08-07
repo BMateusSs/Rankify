@@ -13,7 +13,7 @@ export type Album = {
 
 export type Track = {
     type: string,
-    artist: string,
+    artist: string ,
     last_week: number,
     peak_position: number,
     playcount: number,
@@ -99,4 +99,31 @@ export type ValidWeeks = {
 export type Date = {
     start_date: string,
     end_date: string
+}
+
+export type Overall = {
+    artist: string,
+    name: string,
+    cover: string,
+    peak_position: number,
+    total_weeks: number,
+    playcount: number
+}
+
+export type artistData = {
+    name: string,
+    peak_position: number,
+    total_weeks: number,
+    cover: string,
+    debut_date: string
+}
+
+export type Emblems = {
+    cover: string,
+    name: string,
+    artist: string,
+    date: string,
+    weeks: number,
+    total_pontos: number,
+    total_emblems: number
 }
