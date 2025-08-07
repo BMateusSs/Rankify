@@ -8,10 +8,11 @@ import { FontAwesome, FontAwesome5, FontAwesome6, MaterialIcons } from '@expo/ve
 
 interface Props {
   setDate: (date: string) => void;
+  color: string
 }
 
 
-const ButtonDates: React.FC<Props> = ({setDate}) => {
+const ButtonDates: React.FC<Props> = ({setDate, color}) => {
     const [visible, setVisible] = useState<boolean>(false);
 
     const {data, loading, error} = useFetch<ValidWeeks[]>(API_URLS.GET_WEEKS)
@@ -23,12 +24,14 @@ const ButtonDates: React.FC<Props> = ({setDate}) => {
                 onPress={() => {
                     setDate(item.start_date);
                     setVisible(false);
-                    }}>
+                    }}
+                style={styles.pickerDate}>
                     <View style={styles.weekContainer}>
-                        <Text style={styles.weekText}>Semana {item.week}</Text>
+                        <Text style={[styles.weekText, {color: color}]}>Semana {item.week}</Text>
                     </View>
                     <View style={styles.dateContainer}>
                         <Text>{item.start_date}</Text>
+                        <Text> até </Text>
                         <Text>{item.end_date}</Text>
                     </View>
                 </TouchableOpacity>
@@ -40,7 +43,7 @@ const ButtonDates: React.FC<Props> = ({setDate}) => {
         <View>
             <TouchableOpacity
             onPress={() => setVisible(true)}
-            style={styles.button}
+            style={[styles.button, {backgroundColor: color}]}
             >
                 <View >
                     <MaterialIcons name='calendar-month' size={24} color='#fff'/>
@@ -51,16 +54,12 @@ const ButtonDates: React.FC<Props> = ({setDate}) => {
             <Modal
             visible={visible}
             >
-                <TouchableOpacity
-                onPress={() => setVisible(false)}
-                >
-                    <Text>x</Text>
-                </TouchableOpacity>
 
                 <FlatList
                 data={data}
                 renderItem={renderItem}
                 keyExtractor={(item) => `${item.id}`}
+                showsVerticalScrollIndicator={false}
                 >
                 </FlatList>
             </Modal>
@@ -77,7 +76,6 @@ const styles = StyleSheet.create({
         width: 50,
         height: 50,
         borderRadius: 100,
-        backgroundColor: '#1DB954',
         justifyContent: 'center',
         alignItems: 'center',
         margin: 20
@@ -88,6 +86,10 @@ const styles = StyleSheet.create({
         borderWidth: 1,
         borderColor: '#eee',
         padding: 10
+    },
+    pickerDate: {
+        width: '100%',
+        alignItems: 'center'
     },
     weekContainer: {
         width: '100%',
