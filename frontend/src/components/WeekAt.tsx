@@ -1,5 +1,6 @@
 import React from 'react'
 import { View, Text, StyleSheet } from 'react-native'
+import { fonts } from '../style'
 
 type Props = {
     label: string,
@@ -23,9 +24,9 @@ const styles = StyleSheet.create({
         fontSize: 30
     },
     weekLabel: {
-        fontFamily: 'NeueHaasDisplayBold',
+        fontFamily: fonts.simpleFont,
         fontSize: 18,
-        color: '#1DB954'
+        color: 'blue'
     },
     weekStat: {
         alignItems: 'center',
