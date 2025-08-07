@@ -5,20 +5,22 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { Album, AlbumChartData, Artist, Track } from '../types/types';
 import { MainTabs } from '../navigation/Tabs';
-import TopAlbums from '../screens/TopAlbuns';
-import TopTracks from '../screens/TopTracks';
-import TopArtists from '../screens/TopArtists';
-import ItemInfos from '../screens/ItemInfos';
-import ChartRanking from '../screens/ChartRanking';
+import TopAlbums from '../screens/charts/TopAlbuns';
+import TopTracks from '../screens/charts/TopTracks';
+import TopArtists from '../screens/charts/TopArtists';
+import ItemInfos from '../screens/charts/ItemInfos';
+import ChartRanking from '../screens/charts/ChartRanking';
+import EmblemRanking from '../screens/emblems/EmblemRanking';
 import { fonts } from '../style';
 
 export type RootStackParamList = {
   MainTabs: undefined;
-  TopAlbums: { data: Album[] };
-  TopTracks: { data: Track[] };
-  TopArtists: { data: Artist[] };
+  TopAlbums: undefined;
+  TopTracks: undefined;
+  TopArtists: undefined;
   ItemInfos: { artist: string, album: string, type: string}
-  ChartRanking: {metric: string, type: string}
+  ChartRanking: {metric: string, type: string},
+  Ranking: undefined
 };
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
@@ -64,6 +66,10 @@ export default function App() {
         <Stack.Screen
         name='ChartRanking'
         component={ChartRanking}
+        />
+        <Stack.Screen
+        name='Ranking'
+        component={EmblemRanking}
         />
       </Stack.Navigator>
     </NavigationContainer>
