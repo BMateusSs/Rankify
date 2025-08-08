@@ -8,7 +8,7 @@ import { API_URLS } from '../constants/api'
 import { RootStackParamList } from '../app/App'
 import ChartHeader from './ChartHeader'
 
-type TopAlbumsNavigationProp = NativeStackNavigationProp<RootStackParamList, 'TopAlbums'>
+type TopAlbumsNavigationProp = NativeStackNavigationProp<RootStackParamList, 'TopItems'>
 type TopTrackNavigationProp = NativeStackNavigationProp<RootStackParamList, 'TopTracks'>
 type TopArtistNavigation = NativeStackNavigationProp<RootStackParamList, 'TopArtists'>;
 

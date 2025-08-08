@@ -21,7 +21,8 @@ const TopArtistHome: React.FC<Props> = ({navigation}) => {
     if (!data || data.length === 0) return <Text>Nenhum Artista encontrado.</Text>;
 
     const handleTopArtists = () => {
-        navigation.navigate('TopArtists', {data: data})
+        const type = 'artist'
+        navigation.navigate('TopItems', {type})
     }
     return(
         <View style={{flex: 1, marginTop: 50}}>
@@ -30,7 +31,6 @@ const TopArtistHome: React.FC<Props> = ({navigation}) => {
             navigation={navigation}
             handleNavigation={handleTopArtists}
             />
-            
         </View>
         
     )
