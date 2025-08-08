@@ -9,12 +9,10 @@ import { RootStackParamList } from '../app/App'
 import ChartHeader from './ChartHeader'
 
 type TopAlbumsNavigationProp = NativeStackNavigationProp<RootStackParamList, 'TopItems'>
-type TopTrackNavigationProp = NativeStackNavigationProp<RootStackParamList, 'TopTracks'>
-type TopArtistNavigation = NativeStackNavigationProp<RootStackParamList, 'TopArtists'>;
 
 interface Props {
     data: (Album | Artist)[];
-    navigation: TopAlbumsNavigationProp | TopTrackNavigationProp | TopArtistNavigation
+    navigation: TopAlbumsNavigationProp
 }
 
 const ListItems: React.FC<Props> = ({data, navigation}) => {

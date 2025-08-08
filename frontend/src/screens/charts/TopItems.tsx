@@ -15,11 +15,10 @@ import TopTitle from "../../components/TopTitle";
 
 type TopItemsRouteProp = RouteProp<RootStackParamList, 'TopItems'>;
 type TopItemsNavigationProp = NativeStackNavigationProp<RootStackParamList, 'TopItems'>;
-type TopTracksNavigationProp = NativeStackNavigationProp<RootStackParamList, 'TopTracks'>;
 
 type Props = {
     route: TopItemsRouteProp;
-    navigation: TopItemsNavigationProp | TopTracksNavigationProp;
+    navigation: TopItemsNavigationProp
 
 };
 

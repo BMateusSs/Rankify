@@ -1,13 +1,8 @@
-import { StatusBar } from 'expo-status-bar';
 import { StyleSheet } from 'react-native';
 import { useFonts } from 'expo-font';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { Album, AlbumChartData, Artist, Track } from '../types/types';
 import { MainTabs } from '../navigation/Tabs';
-import TopAlbums from '../screens/charts/TopItems';
-import TopTracks from '../screens/charts/TopTracks';
-import TopArtists from '../screens/charts/TopArtists';
 import ItemInfos from '../screens/charts/ItemInfos';
 import ChartRanking from '../screens/charts/ChartRanking';
 import EmblemRanking from '../screens/emblems/EmblemRanking';
@@ -17,8 +12,6 @@ import TopItems from '../screens/charts/TopItems';
 export type RootStackParamList = {
   MainTabs: undefined;
   TopItems: {type: string};
-  TopTracks: undefined;
-  TopArtists: undefined;
   ItemInfos: { artist: string, album: string, type: string}
   ChartRanking: {metric: string, type: string},
   Ranking: undefined
@@ -48,16 +41,6 @@ export default function App() {
           name='TopItems' 
           component={TopItems}
           options={{ title: 'Top Álbuns' }}
-        />
-        <Stack.Screen 
-          name='TopTracks' 
-          component={TopTracks}
-          options={{ title: 'Top Músicas' }}
-        />
-        <Stack.Screen 
-          name='TopArtists' 
-          component={TopArtists}
-          options={{ title: 'Top Artistas' }}
         />
         <Stack.Screen 
           name='ItemInfos' 
