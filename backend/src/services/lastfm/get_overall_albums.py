@@ -10,6 +10,7 @@ from backend.config import Config
 from backend.src.database.queries.selections.tops.get_chart_data import get_chart_data
 from backend.src.database.queries.selections.tops.get_track_chart_data import get_track_chart_data
 from backend.src.database.queries.selections.tops.get_artist_chart_data import get_artist_chart_data
+from backend.src.database.queries.selections.get_overall_items_infos import get_overal_albums_infos
 
 def get_overall_albums():
     config = Config()
@@ -28,18 +29,19 @@ def get_overall_albums():
 
     albums = data['topalbums']['album']
     dados = []
+    albums_infos = get_overal_albums_infos()
     for album in albums:
         artist = album['artist']['name']
         album_name = album['name']
-        infos = get_chart_data(artist, album_name)
+        infos = albums_infos[(artist, album_name)]
 
         dados.append({
             'artist': artist,
             'name': album_name,
             'playcount': album['playcount'],
-            'cover': infos[2],
-            'peak_position': infos[7],
-            'total_weeks': infos[9]
+            'cover': infos['cover'],
+            'peak_position': infos['peak_position'],
+            'total_weeks': infos['total_weeks']
         })
 
     return dados
