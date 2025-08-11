@@ -38,7 +38,8 @@ const Ranking: React.FC<Props> = ({data}) => {
         )
     }
     return(
-        <View>
+        
+        <View style={{backgroundColor: '#fff', paddingTop: 20, borderTopRightRadius: 30, borderTopLeftRadius: 30}}>
             <FlatList
             data={data}
             renderItem={renderItem}
