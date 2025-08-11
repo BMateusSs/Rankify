@@ -6,6 +6,7 @@ import Ranking from '../../components/RankingEmblems'
 import ItemButton from '../../components/ItemButton'
 import { useFetch } from '../../hooks/useFetch'
 import { Emblems } from '../../types/types'
+import RankContainer from '../../components/RankContainer'
 
 const EmblemRanking: React.FC = () => {
     const [type, setType,] = useState<string>('album')
@@ -31,7 +32,7 @@ const EmblemRanking: React.FC = () => {
     
     return(
         <ScrollView>
-            <View style={{flex: 1}}>
+            <View style={{flex: 1, backgroundColor: '#87CEFA'}}>
                 <ItemButton
                 color='blue'
                 icon='music'
@@ -42,6 +43,7 @@ const EmblemRanking: React.FC = () => {
                 icon='disc'
                 onPress={() => setType('album')}
                 />
+                <RankContainer/>
                 <Ranking
                 data={data}
                 />
